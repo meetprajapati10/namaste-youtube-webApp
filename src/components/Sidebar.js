@@ -6,6 +6,8 @@ import {
   MdOutlineVideoLibrary,
   MdOutlineWatchLater,
   MdOutlineLiveTv,
+  MdOutlineOutlinedFlag,
+  MdOutlineFeedback,
 } from "react-icons/md";
 import {
   SiYoutubeshorts,
@@ -20,13 +22,18 @@ import { FaUser } from "react-icons/fa6";
 import { FcPortraitMode, FcNightPortrait } from "react-icons/fc";
 import { FaFire } from "react-icons/fa6";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { IoGameControllerOutline, IoNewspaperOutline } from "react-icons/io5";
+import {
+  IoGameControllerOutline,
+  IoNewspaperOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { PiMusicNoteLight, PiStudentFill } from "react-icons/pi";
 import { BiMoviePlay } from "react-icons/bi";
 import { BsTrophy } from "react-icons/bs";
 import { FaShopify } from "react-icons/fa6";
-import { TfiYoutube } from "react-icons/tfi";
 import { TbBrandYoutubeKids } from "react-icons/tb";
+import { FcStart } from "react-icons/fc";
+import { FiHelpCircle } from "react-icons/fi";
 
 const SideBar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
@@ -35,7 +42,7 @@ const SideBar = () => {
   if (!isMenuOpen) return null;
 
   return (
-    <div className="p-5 shadow-lg w-2/12 h-screen overflow-y-auto">
+    <div className="p-5 w-[280px] max-h-screen hover:overflow-y-scroll overflow-hidden overscroll-contain sticky top-16 z-50 bg-white">
       <ul className="cursor-pointer">
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 font-bold text-center">
           <Link to="/" className="flex items-center">
@@ -48,13 +55,13 @@ const SideBar = () => {
           Shorts
         </li>
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
-          <Link to="/" className="flex items-center">
-            <MdOutlineSubscriptions className="mr-5 text-2xl" />
-            Subscriptions
-          </Link>
+          <MdOutlineSubscriptions className="mr-5 text-2xl" />
+          Subscriptions
         </li>
       </ul>
+
       <hr className="my-2" />
+
       <ul className="cursor-pointer">
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
           <MdOutlineVideoLibrary className="mr-5 text-2xl" />
@@ -105,10 +112,8 @@ const SideBar = () => {
       <h3 className="font-bold mt-4 mb-2 pl-1">Explore</h3>
       <ul className="cursor-pointer">
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
-          <Link to="/" className="flex items-center">
-            <FaFire className="mr-5 text-2xl" />
-            Trending
-          </Link>
+          <FaFire className="mr-5 text-2xl" />
+          Trending
         </li>
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
           <HiOutlineShoppingBag className="mr-5 text-2xl" />
@@ -154,7 +159,7 @@ const SideBar = () => {
       <ul className="cursor-pointer">
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
           <Link to="/" className="flex items-center">
-            <TfiYoutube className="mr-5 text-2xl" />
+            <FcStart className="mr-5 text-2xl" />
             YouTube Premium
           </Link>
         </li>
@@ -169,6 +174,29 @@ const SideBar = () => {
         <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
           <TbBrandYoutubeKids className="mr-5 text-2xl" />
           YouTube Kids
+        </li>
+      </ul>
+
+      <hr className="my-2"></hr>
+
+      <ul className="cursor-pointer">
+        <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
+          <Link to="/" className="flex items-center">
+            <IoSettingsOutline className="mr-5 text-2xl" />
+            Settings
+          </Link>
+        </li>
+        <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
+          <MdOutlineOutlinedFlag className="mr-5 text-2xl" />
+          Report history
+        </li>
+        <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
+          <FiHelpCircle className="mr-5 text-2xl" />
+          Help
+        </li>
+        <li className="py-2 flex hover:bg-gray-200 rounded-lg pl-1 text-center">
+          <MdOutlineFeedback className="mr-5 text-2xl" />
+          Send feedback
         </li>
       </ul>
     </div>

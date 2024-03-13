@@ -12,7 +12,7 @@ const FilteredButtonsList = () => {
     "Cricket",
     "Gaming",
     "Cooking",
-    "Music",
+    "Sports",
     "Recently uploaded",
   ];
 

@@ -3,9 +3,15 @@ import "./App.css";
 import Body from "./components/Body";
 import Head from "./components/Head";
 import appStore from "./Redux/appStore";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Route,
+  Router,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
+import SearchResult from "./components/SearchResult";
 
 const appRouter = createBrowserRouter([
   {
@@ -19,6 +25,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/watch",
         element: <WatchPage />,
+      },
+      {
+        path: "/results",
+        element: <SearchResult />,
       },
     ],
   },
