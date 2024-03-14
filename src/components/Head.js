@@ -104,18 +104,13 @@ const Head = () => {
           <div className="fixed bg-white p-2 mt-1 w-[32rem] shadow-xl rounded-xl border border-gray-300">
             <ul>
               {suggestions.map((suggestion) => (
-                <Link
-                  to={"results?search_query=" + suggestion}
-                  onClick={() => setSearchQuery(suggestion)}
+                <li
+                  key={suggestion}
+                  className="flex items-center my-1 mx-2 p-1 font-semibold hover:bg-gray-100 rounded-lg cursor-pointer"
                 >
-                  <li
-                    key={suggestion}
-                    className="flex items-center my-1 mx-2 p-1 font-semibold hover:bg-gray-100 rounded-lg cursor-pointer"
-                  >
-                    <IoSearchOutline className="mr-3 text-lg" />
-                    {suggestion}
-                  </li>
-                </Link>
+                  <IoSearchOutline className="mr-3 text-lg" />
+                  {suggestion}
+                </li>
               ))}
             </ul>
           </div>
