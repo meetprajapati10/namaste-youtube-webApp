@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeMenu } from "../Redux/appSlice";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import CommentsContainer from "./CommentsContainer";
-import { YOUTUBE_VIDEOS_API_BY_ID } from "../utils/constants";
+import {
+  YOUTUBE_VIDEOS_API,
+  YOUTUBE_VIDEOS_API_BY_ID,
+} from "../utils/constants";
 import formatCompactNumber from "../utils/formatCompactNumber";
 import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
 import { PiShareFat } from "react-icons/pi";
@@ -11,9 +14,11 @@ import { LiaDownloadSolid } from "react-icons/lia";
 import { BsThreeDots } from "react-icons/bs";
 import ShimmerWatch from "../shimmer UI/ShimmerWatch";
 import LiveChat from "./LiveChat";
+import ShimmerCard from "../shimmer UI/ShimmerCard";
 
 const WatchPage = () => {
   const [videoInfo, setVideoInfo] = useState([]);
+  const [relatedVideos, setRelatedVideos] = useState([]);
 
   //   const { id } = useParams();
   //   console.log(params);
@@ -33,16 +38,20 @@ const WatchPage = () => {
   }, []);
 
   const getVideoInfo = async () => {
-    const data = await fetch(YOUTUBE_VIDEOS_API_BY_ID + searchParams.get("v"));
-    const json = await data.json();
-    // console.log(json.items);
-    setVideoInfo(json.items);
+    const data = await Promise.all([
+      fetch(YOUTUBE_VIDEOS_API_BY_ID + searchParams.get("v")),
+      fetch(YOUTUBE_VIDEOS_API),
+    ]);
+    const watchVideoJson = await data[0].json();
+    const relVideoJson = await data[1].json();
+    setVideoInfo(watchVideoJson.items);
+    setRelatedVideos(relVideoJson.items);
   };
 
   return videoInfo.length === 0 ? (
     <ShimmerWatch />
   ) : (
-    <div className={!isMenuOpen + "? pt-4 w-full pl-5"}>
+    <div className={!isMenuOpen + "pt-6 w-full"}>
       <div className="flex ml-12">
         <div className="mb-3">
           {/* Video watch iframe Section */}
@@ -59,9 +68,6 @@ const WatchPage = () => {
                 allowFullScreen
               ></iframe>
             </div>
-            {/* <div className="w-full">
-              <LiveChat />
-            </div> */}
           </div>
           <div>
             {videoInfo.map((video) => {
@@ -81,7 +87,7 @@ const WatchPage = () => {
                         src={thumbnails?.default?.url}
                       />
                       <div className="flex">
-                        <div className="flex flex-col ml-2">
+                        <div className="flex flex-col w-44 ml-2">
                           <div className="font-bold">{channelTitle}</div>
                           <div className="text-sm text-gray-600">
                             {formatCompactNumber(viewCount)} subscribers
@@ -123,7 +129,44 @@ const WatchPage = () => {
           </div>
         </div>
         <div className="w-full">
-          <LiveChat />
+          <div className="mb-10">
+            <LiveChat />
+          </div>
+
+          {/* Suggestion video right sidebar section  */}
+          {relatedVideos.map((video) => {
+            const { snippet, statistics } = video;
+            const { thumbnails, title, channelTitle, publishedAt } = snippet;
+            const { viewCount } = statistics;
+
+            return (
+              <Link key={video?.id} to={"?v=" + video?.id}>
+                <div className="m-2 px-3 mt-5 flex">
+                  <img
+                    alt="thumbnail"
+                    src={thumbnails?.medium?.url}
+                    className="rounded-xl w-[168px] h-[94px]"
+                  />
+                  <ul className="ml-2 w-60">
+                    <li className="font-semibold pb-[5px] text-sm line-clamp-2">
+                      {title}
+                    </li>
+                    <li className="text-[13px] text-gray-600">
+                      {channelTitle}
+                    </li>
+                    <li className="text-[13px] text-gray-600">
+                      {formatCompactNumber(viewCount)} views .{" "}
+                      {(
+                        Math.abs(new Date(publishedAt) - new Date()) /
+                        (60 * 60 * 24 * 1000)
+                      ).toFixed(0)}{" "}
+                      days ago
+                    </li>
+                  </ul>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
